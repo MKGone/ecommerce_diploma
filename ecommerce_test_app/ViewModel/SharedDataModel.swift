@@ -7,14 +7,13 @@
 
 import SwiftUI
 
-struct SharedDataModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+class SharedDataModel: ObservableObject {
+    
+    //Detail product data
+    @Published var detailProduct: Product?
+    @Published var showDetailProduct: Bool = false
+    @Published var fromSearchPage: Bool = false
+    
 }
 
-struct SharedDataModel_Previews: PreviewProvider {
-    static var previews: some View {
-        SharedDataModel()
-    }
-}
+

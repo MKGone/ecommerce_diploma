@@ -9,9 +9,22 @@ import SwiftUI
 
 struct MoreProductsView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        VStack{
+            Text("More Products")
+                .font(.custom(customFont, size: 24).bold())
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background(Color("Black").ignoresSafeArea())
+        
     }
+        
+        
 }
+    
 
 struct MoreProductsView_Previews: PreviewProvider {
     static var previews: some View {
