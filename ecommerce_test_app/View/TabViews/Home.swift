@@ -101,14 +101,14 @@ struct Home: View {
         
         .overlay{
             
-//            ZStack{
-//
-//                if homeData.searchActivated{
-//                    SearchView(animation: animation)
-//                        .environmentObject(homeData)
-//                }
-//
-//            }
+            ZStack{
+
+                if homeData.searchActivated{
+                    SearchView(animation: animation)
+                        .environmentObject(homeData)
+                }
+
+            }
             
         }
     }
@@ -145,6 +145,7 @@ struct Home: View {
                     Image(product.productImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
+                        .opacity(0)
                 }
                 else{
                     Image(product.productImage)

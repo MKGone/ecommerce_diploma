@@ -25,7 +25,8 @@ struct SearchView: View {
                         homeData.searchActivated = false
                     }
                     homeData.searchText = ""
-//                    sharedData.fromSearchPage = false
+//                    Reseting
+                    sharedData.fromSearchPage = false
                 } label: {
                     Image(systemName: "arrow.left")
                         .font(.title2)
@@ -126,10 +127,21 @@ struct SearchView: View {
         
         VStack(spacing: 10){
             
-            Image(product.productImage)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-//                .matchedGeometryEffect(id: "\(product.id)SEARCH", in: animation)
+            ZStack{
+                if sharedData.showDetailProduct{
+                    Image(product.productImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .opacity(0)
+                }
+                else{
+                    Image(product.productImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .matchedGeometryEffect(id: "\(product.id)SEARCH", in: animation)
+                }
+            }
+                
             
             Text(product.title)
                 .font(.custom(customFont, size: 18))
@@ -157,8 +169,10 @@ struct SearchView: View {
         .padding(.top,50)
         .onTapGesture {
             withAnimation(.easeInOut){
+                
                 sharedData.fromSearchPage = true
                 sharedData.detailProduct = product
+                sharedData.showDetailProduct = true
 //                sharedData.showDetailProduct = true
             }
         }

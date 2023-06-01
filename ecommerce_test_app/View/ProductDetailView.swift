@@ -14,6 +14,7 @@ struct ProductDetailView: View {
     
     //Shared data model
     @EnvironmentObject var sharedData: SharedDataModel
+    @EnvironmentObject var homeData: HomeViewModel
     var body: some View {
         
         VStack{
@@ -37,14 +38,14 @@ struct ProductDetailView: View {
                     Spacer()
                     
                     Button{
-                        
+                        addToLiked()
                     } label: {
                         Image("Liked2")
                             .renderingMode(.template)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 22, height: 22)
-                            .foregroundColor(Color.white)
+                            .foregroundColor(isLiked() ? .red : Color.white)
                             
                     }
                 }
@@ -54,13 +55,14 @@ struct ProductDetailView: View {
                 Image(product.productImage)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .matchedGeometryEffect(id: "\(product.id)IMAGE", in: animation)
+                    .matchedGeometryEffect(id: "\(product.id)\(sharedData.fromSearchPage ? "SEARCH" : "IMAGE")", in: animation)
                     .padding(.horizontal)
                     .offset(y: -12)
                     .frame(maxHeight: .infinity)
                 
             }
             .frame(height: getRect().height / 2.7)
+            .zIndex(0)
             
             //Product details
             ScrollView(.vertical, showsIndicators: false){
@@ -114,9 +116,9 @@ struct ProductDetailView: View {
                     .padding(.vertical, 20)
                     
                     Button{
-                        
+                        addToCart()
                     } label: {
-                        Text("Add to cart")
+                        Text("\(isAddedToCart() ? "Added": "Add") to cart")
                             .font(.custom(customFont, size: 20).bold())
                             .foregroundColor(Color.white)
                             .padding(.vertical, 20)
@@ -146,11 +148,50 @@ struct ProductDetailView: View {
                     .clipShape(CustomCorners(corners: [.topLeft, .topRight], radius: 25))
                     .ignoresSafeArea()
             )
+            .zIndex(0)
         }
         .background(Color("ProductBG").ignoresSafeArea())
-        
+        .animation(.easeInOut, value: sharedData.likedProducts)
+        .animation(.easeInOut, value: sharedData.cartProducts)
         
     }
+    
+    func isLiked()->Bool{
+        return sharedData.likedProducts.contains{ product in
+            return self.product.id == product.id
+        }
+    }
+    
+    func isAddedToCart()->Bool{
+        return sharedData.cartProducts.contains{ product in
+            return self.product.id == product.id
+        }
+    }
+    
+    func addToLiked(){
+        
+        if let index = sharedData.likedProducts.firstIndex(where: { product in
+            return self.product.id == product.id
+        }){
+            sharedData.likedProducts.remove(at: index)
+        }
+        else{
+            sharedData.likedProducts.append(product)
+        }
+        
+    }
+    
+    func addToCart(){
+        if let index = sharedData.cartProducts.firstIndex(where: { product in
+            return self.product.id == product.id
+        }){
+            sharedData.cartProducts.remove(at: index)
+        }
+        else{
+            sharedData.cartProducts.append(product)
+        }
+    }
+    
 }
 
 struct ProductDetailView_Previews: PreviewProvider {

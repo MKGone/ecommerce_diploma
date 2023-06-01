@@ -27,13 +27,15 @@ struct MainPage: View {
                     .environmentObject(sharedData)
                     .tag(Tab.Home)
                 
-                Text("Liked")
+                LikedPage()
+                    .environmentObject(sharedData)
                     .tag(Tab.Liked)
                 
                 ProfilePage()
                     .tag(Tab.Profile)
                 
-                Text("Cart")
+                CartPage()
+                    .environmentObject(sharedData)
                     .tag(Tab.Cart)
                 
             }
